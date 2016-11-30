@@ -78,6 +78,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 600);
+        this.setResizable(false);
         this.setLayout(new FlowLayout(1));
 
         sendButton = new JButton("Send");
@@ -108,11 +109,11 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         text.setPreferredSize(new Dimension(200, 50));
         text.setVisible(true);
         
-        ipText = new JTextField("ip: ");
+        ipText = new JTextField("192.168.1.1");
         ipText.setPreferredSize(new Dimension(200, 50));
         ipText.setVisible(true);
 
-        portText = new JTextField("port: ");
+        portText = new JTextField("" + port);
         portText.setPreferredSize(new Dimension(200, 50));
         portText.setVisible(true);
 
@@ -173,6 +174,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         socket = new Socket(InetAddress.getByName(ipText.getText()), Integer.parseInt(portText.getText()));
 
         showMessage("Now connected to: " + socket.getInetAddress().getHostName());
+        
     }
 
     public void waitForConnect() throws IOException {
@@ -197,6 +199,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         String message = "Connected";
         sendMessage(message);
         leaveButton.setEnabled(true);
+        sendButton.setEnabled(true);
         do {
             try {
                 message = (String) input.readObject();
@@ -211,6 +214,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
     }
 
     public void sendMessage(String message) {
+        
         try {
             output.writeObject(message);
             output.flush();
@@ -251,6 +255,8 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
             } catch (IOException ex) {
                 Logger.getLogger(clientMessenger.class.getName()).log(Level.SEVERE, null, ex);
             }
+            leaveButton.setEnabled(false);
+            sendButton.setEnabled(false);
         }
                 break;
                 
