@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -51,6 +52,13 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
     private int type;
 
     public static void main(String[] args) {
+        try {
+            // Set System L&F
+            //UIManager.setLookAndFeel(
+             //       UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         new clientMessenger();
     }
 
@@ -58,7 +66,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         t = new Thread(this, "Messenger");
 
         serverIP = "192.168.1.8";
-        port = 1234;
+        port = 33678;
         type = 0;
         createAndShowGUI();
         t.start();
@@ -161,6 +169,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
     public void connectToServer() throws IOException {
 
         showMessage("Attempting to connect...");
+        
         socket = new Socket(InetAddress.getByName(ipText.getText()), Integer.parseInt(portText.getText()));
 
         showMessage("Now connected to: " + socket.getInetAddress().getHostName());
