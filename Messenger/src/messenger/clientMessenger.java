@@ -200,7 +200,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         do {
             try {
                 message = (String) input.readObject();
-                showMessage(socket.getInetAddress().getHostName() + ": " + message);
+                showMessage(socket.getInetAddress().getHostAddress() + ": " + message);
 
             } catch (ClassNotFoundException n) {
                 showMessage("User sent some shit");
