@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -39,6 +40,8 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
     private JTextArea textArea;
     private JTextField text, ipText, portText;
     private JScrollPane scrollPane;
+    
+    private JLabel yourIp;
 
     //Create serverStuff
     ServerSocket serverSocket;
@@ -110,6 +113,13 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         text.setPreferredSize(new Dimension(200, 50));
         text.setVisible(true);
         
+        yourIp = new JLabel();
+        try {
+            yourIp.setText(InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(clientMessenger.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         ipText = new JTextField("192.168.1.1");
         try {
             ipText.setText(InetAddress.getLocalHost().getHostAddress());
@@ -128,6 +138,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         text.addActionListener(this);
         leaveButton.addActionListener(this);
 
+        this.add(yourIp);
         this.add(ipText);
         this.add(portText);
         this.add(connectButton, BorderLayout.BEFORE_FIRST_LINE);
@@ -135,7 +146,7 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         this.add(sendButton, BorderLayout.WEST);
         this.add(scrollPane, BorderLayout.EAST);
         this.add(text, BorderLayout.SOUTH);
-
+        
         this.validate();
         this.repaint();
         
