@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,6 +111,11 @@ public class clientMessenger extends JFrame implements ActionListener, Runnable 
         text.setVisible(true);
         
         ipText = new JTextField("192.168.1.1");
+        try {
+            ipText.setText(InetAddress.getLocalHost().getHostAddress());
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(clientMessenger.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ipText.setPreferredSize(new Dimension(200, 50));
         ipText.setVisible(true);
 
